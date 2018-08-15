@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eth-live
+spec:
+  selector:
+    matchLabels:
+      app: eth-live
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: eth-live
+    spec:
+      containers:
+        - name: eth-live
+          image: eth-img
+          imagePullPolicy: Never
+          ports:
+          - containerPort: 30303
+            name: eth-live
+          - containerPort: 8545
+            name: eth-json-rpc
+          volumeMounts:
+          - name: eth-live-data
+            mountPath: /app/data
+          resources:
+            requests:
+              memory: "2048M"
+              cpu: "750m"
+            limits:
+              memory: "4096M"
+              cpu: "1000m"
+      volumes:
+        - name: eth-live-data
+          hostPath:
+            path: /data/eth-live
+            type: Directory

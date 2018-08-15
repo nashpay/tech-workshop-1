@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: eth-live-svc
+spec:
+  selector:
+    app: eth-live
+  ports:
+    - protocol: TCP
+      port: 30303
+      targetPort: 30303
+      name: eth-live-net
+    - protocol: TCP
+      port: 30002
+      targetPort: 8545
+      name: eth-live-jsonrpc
